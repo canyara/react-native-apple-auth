@@ -1,0 +1,33 @@
+{
+  "name": "react-native-apple-auth",
+  "title": "React Native Apple Auth",
+  "version": "1.0.0",
+  "description": "react-native-apple-auth",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/canyara/react-native-apple-auth.git",
+    "baseUrl": "https://github.com/canyara/react-native-apple-auth"
+  },
+  "keywords": [
+    "react-native"
+  ],
+  "author": {
+    "name": "FlyingPig",
+    "email": "canyara@gmail.com"
+  },
+  "license": "MIT",
+  "licenseFilename": "LICENSE",
+  "readmeFilename": "README.md",
+  "peerDependencies": {
+    "react": "^16.8.1",
+    "react-native": ">=0.57.5"
+  },
+  "devDependencies": {
+    "react": "^16.8.3",
+    "react-native": "^0.59.10"
+  }
+}
