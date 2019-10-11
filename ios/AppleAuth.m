@@ -1,4 +1,6 @@
 #import "AppleAuth.h"
+#import "AppleAuthenticationMappings.h"
+#import "AppleAuthenticationRequest.h"
 
 static NSString *const AppleIDCredentialRevokedEvent = @"AppleAuth.appleIdCredentialRevoked";
 
@@ -32,8 +34,7 @@ RCT_EXPORT_MODULE()
 
 - (void)didRevokeCredential:(NSNotification *)notification
 {
-  id<UMEventEmitterService> eventEmitter = [_moduleRegistry getModuleImplementingProtocol:@protocol(UMEventEmitterService)];
-  [eventEmitter sendEventWithName:AppleIDCredentialRevokedEvent body:@{}];
+    [self sendEventWithName:AppleIDCredentialRevokedEvent body:@{}];
 }
 
 RCT_REMAP_METHOD(isAvailableAsync,
@@ -44,20 +45,6 @@ RCT_REMAP_METHOD(isAvailableAsync,
     resolve(@(YES));
   } else {
     resolve(@(NO));
-  }
-}
-
-RCT_REMAP_METHOD(requestAsync,
-                 requestAsync:(NSDictionary *)options
-                 resolver:(RCTPromiseResolveBlock)resolve
-                 rejecter:(RCTPromiseRejectBlock)reject)
-{
-  if (@available(iOS 13.0, *)) {
-    [self requestWithOptions:options
-                    resolver:resolve
-                    rejecter:reject];
-  } else {
-    reject(@"ERR_APPLE_AUTHENTICATION_UNAVAILABLE", @"Apple authentication is not supported on this device.", nil);
   }
 }
 
@@ -98,8 +85,8 @@ RCT_REMAP_METHOD(getCredentialStateAsync,
 #pragma mark - helpers
 
 - (void)requestWithOptions:(NSDictionary *)options
-                  resolver:(UMPromiseResolveBlock)resolve
-                  rejecter:(UMPromiseRejectBlock)reject API_AVAILABLE(ios(13.0))
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject API_AVAILABLE(ios(13.0))
 {
   ASAuthorizationProviderAuthorizationOperation operation = [AppleAuthenticationMappings importOperation:options[@"requestedOperation"]];
   __block AppleAuthenticationRequest *request = [AppleAuthenticationRequest performOperation:operation
@@ -108,7 +95,7 @@ RCT_REMAP_METHOD(getCredentialStateAsync,
     if (error) {
       if (error.code == 1001) {
         // User canceled authentication attempt.
-        reject(UMErrorCodeCanceled, @"The Apple authentication request has been canceled by the user.", nil);
+        reject(@"ERR_APPLE_AUTHENTICATION_REQUEST_CANCEL", @"The Apple authentication request has been canceled by the user.", nil);
       } else {
         reject(@"ERR_APPLE_AUTHENTICATION_REQUEST_FAILED", error.localizedDescription, nil);
       }
