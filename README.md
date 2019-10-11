@@ -4,7 +4,7 @@ based on [`expo-apple-authentication`](https://github.com/expo/expo/tree/master/
 
 ## Getting started
 
-`$ npm install react-native-apple-auth --save`
+`$ yarn add git+https://github.com/canyara/react-native-apple-auth.git`
 
 ### Mostly automatic installation
 
@@ -21,9 +21,12 @@ based on [`expo-apple-authentication`](https://github.com/expo/expo/tree/master/
 
 ## Usage
 
+use as `expo-apple-authentication`
+
 ```javascript
 import AppleAuth from "react-native-apple-auth";
 
-// TODO: What to do with the module?
-AppleAuth;
+AppleAuth.isAvailableAsync();
+AppleAuth.signInAsync(options);
+AppleAuth.getCredentialStateAsync(user);
 ```
