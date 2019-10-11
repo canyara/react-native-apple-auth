@@ -9,7 +9,7 @@ import {
   AppleAuthenticationCredentialState,
   AppleAuthenticationOperation,
   AppleAuthenticationRevokeListener
-} from "./AppleAuthentication.types";
+} from "./AppleAuthTypes";
 
 export async function isAvailableAsync(): Promise<boolean> {
   if (!AppleAuth || !AppleAuth.isAvailableAsync) {
